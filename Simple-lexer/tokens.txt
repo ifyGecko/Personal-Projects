@@ -1,0 +1,30 @@
+Token Type          Lexeme
+keyword             int
+keyword             main
+punctuation         (
+punctuation         )
+punctuation         {
+keyword             char
+identifier          c
+punctuation         ;
+keyword             int
+identifier          i
+punctuation         ;
+identifier          c
+punctuation         ;
+operator            =
+char                h
+punctuation         ;
+identifier          i
+punctuation         ;
+operator            =
+identifier          c
+punctuation         ;
+operator            +
+integer             3
+punctuation         ;
+punctuation         }
+
+Symbol Table        Line Number
+c                   2
+i                   3
