@@ -43,7 +43,7 @@ int main(int argc, char** argv){
 }
 EOF
 
-#call relative packet parsing cmds & scripts
+#call relative client cmds & scripts
 client_parser(){
     for (( ; ; ))
     do
@@ -55,7 +55,7 @@ client_parser(){
     done
 }
 
-#call relative packet parsing cmds & scripts
+#call relative server cmds & scripts
 server_parser(){
     for (( ; ; ))
     do
@@ -67,7 +67,7 @@ server_parser(){
     done
 }
 
-#record 127.0.0.1 traffic during uptime
+#record all 127.0.0.1 traffic during uptime
 packet_capture(){
     touch $tmp/packet_capture.pcap
     tshark -i lo -r $tmp/packet_capture.pcap &
