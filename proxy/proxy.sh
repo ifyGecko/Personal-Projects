@@ -61,7 +61,7 @@ server_parser(){
     do
 	#python3 -c "$server_script" $server
 	#tcpflow -c -i lo port 4200
-	#timeout 0.1s od -A x -t x1z -v <$server
+	timeout 0.1s od -A x -t x1z -v <$server
 	#timeout 0.1s hexdump -C -v <$server
 	#tcc -run $c_code
     done
