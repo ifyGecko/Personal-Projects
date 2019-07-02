@@ -2,8 +2,8 @@
 
 #mock example use
 #terminal 1: nc -l -p 4200
-#terminal 2: ./proxy localhost 4200
-#terminal 3: nc localhost 1337 //then type 'a'+enter
+#terminal 2: ./proxy 127.0.0.1 4200
+#terminal 3: nc 127.0.0.1 1337 //then type 'a'+enter
 
 if [ $# != 2 ]
 then
@@ -19,10 +19,8 @@ import sys
 import os
 
 client=os.open(sys.argv[1], os.O_RDWR)
-#packet=bytearray(os.read(client, 577))
-#sys.stdout.write(str(packet)+'\n')
 packet=os.read(client, 577)
-print(packet.decode())
+sys.stdout.write(str(packet)+'\n')
 EOF
 
 #bash variable holding python cmd str
@@ -32,18 +30,30 @@ import struct
 import sys
 import os
 
-server=os.open(sys.argv[1], os.O_RDWR)
-packet=os.read(server, 577)
-print(packet.decode())
+client=os.open(sys.argv[1], os.O_RDWR)
+packet=os.read(client, 577)
+sys.stdout.write(str(packet)+'\n')
+EOF
+
+#bash variable holding c src code
+read -r -d '' c_code <<-"EOF"
+//c program
+#include<stdio.h>
+#include<stdlib.h>
+
+int main(int argc, char** argv){
+    return 0;
+}
 EOF
 
 #call relative packet parsing cmds & scripts
 client_parser(){
     for (( ; ; ))
     do
+	python3 -c "$client_script" $client
 	#timeout 0.1s od -A x -t x1z -v <$client
 	#timeout 0.1s hexdump -C -v <$client
-	#python3 -c "$client_script" $client
+	#tcc -run $c_code
     done
 }
 
@@ -51,9 +61,10 @@ client_parser(){
 server_parser(){
     for (( ; ; ))
     do
-	timeout 0.1s od -A x -t x1z -v <$server
-	#timeout 0.1s hexdump -C -v <$server
 	#python3 -c "$server_script" $server
+	timeout 0.1s od -A x -t x1z -v <$server
+	timeout 0.1s hexdump -C -v <$server
+	#tcc -run $c_code
     done
 }
 
@@ -84,3 +95,4 @@ server_parser &  #server traffic parser,
 packet_capture & #traffic recorder
                  #and, the 
                  #proxy server
+nc -l -p $proxy_port <$loop | tee $client | nc $1 $2 | tee $server >$loop
