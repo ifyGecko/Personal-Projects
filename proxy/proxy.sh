@@ -19,7 +19,7 @@ import sys
 import os
 
 client=os.open(sys.argv[1], os.O_RDWR)
-packet=os.read(client, 577)
+packet=os.read(client, 4096)
 print(packet.decode())
 EOF
 
