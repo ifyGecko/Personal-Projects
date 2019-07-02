@@ -20,7 +20,7 @@ import os
 
 client=os.open(sys.argv[1], os.O_RDWR)
 packet=os.read(client, 577)
-sys.stdout.write(str(packet)+'\n')
+print(packet.decode())
 EOF
 
 #bash variable holding python cmd str
@@ -30,9 +30,6 @@ import struct
 import sys
 import os
 
-client=os.open(sys.argv[1], os.O_RDWR)
-packet=os.read(client, 577)
-sys.stdout.write(str(packet)+'\n')
 EOF
 
 #bash variable holding c src code
@@ -51,6 +48,7 @@ client_parser(){
     for (( ; ; ))
     do
 	python3 -c "$client_script" $client
+	#tcpflow -c -i lo port 1337
 	#timeout 0.1s od -A x -t x1z -v <$client
 	#timeout 0.1s hexdump -C -v <$client
 	#tcc -run $c_code
@@ -62,13 +60,14 @@ server_parser(){
     for (( ; ; ))
     do
 	#python3 -c "$server_script" $server
-	timeout 0.1s od -A x -t x1z -v <$server
-	timeout 0.1s hexdump -C -v <$server
+	#tcpflow -c -i lo port 4200
+	#timeout 0.1s od -A x -t x1z -v <$server
+	#timeout 0.1s hexdump -C -v <$server
 	#tcc -run $c_code
     done
 }
 
-#record all 127.0.0.1 traffic during uptime
+#record 127.0.0.1 traffic during uptime
 packet_capture(){
     touch $tmp/packet_capture.pcap
     tshark -i lo -r $tmp/packet_capture.pcap &
