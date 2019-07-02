@@ -19,8 +19,10 @@ import sys
 import os
 
 client=os.open(sys.argv[1], os.O_RDWR)
-packet=bytearray(os.read(client, 577))
-sys.stdout.write(str(packet)+'\n')
+#packet=bytearray(os.read(client, 577))
+#sys.stdout.write(str(packet)+'\n')
+packet=os.read(client, 577)
+print(packet.decode())
 EOF
 
 #bash variable holding python cmd str
@@ -30,9 +32,9 @@ import struct
 import sys
 import os
 
-client=os.open(sys.argv[1], os.O_RDWR)
-packet=bytearray(os.read(client, 577))
-sys.stdout.write(str(packet)+'\n')
+server=os.open(sys.argv[1], os.O_RDWR)
+packet=os.read(server, 577)
+print(packet.decode())
 EOF
 
 #call relative packet parsing cmds & scripts
@@ -41,7 +43,7 @@ client_parser(){
     do
 	#timeout 0.1s od -A x -t x1z -v <$client
 	#timeout 0.1s hexdump -C -v <$client
-	python3 -c "$client_script" $client
+	#python3 -c "$client_script" $client
     done
 }
 
@@ -77,9 +79,8 @@ mkfifo -m 0600 $loop $client $server
 trap 'rm -rf $tmp/pipe.*;mv $tmp/packet_capture.pcap /tmp' EXIT
 
                  #execute the
-client_parser &  #parse client traffic,
-server_parser &  #parsse server traffic,
-packet_capture & #record traffic
+client_parser &  #client traffic parser,
+server_parser &  #server traffic parser,
+packet_capture & #traffic recorder
                  #and, the 
                  #proxy server
-nc -l -p $proxy_port <$loop | tee $client | nc $1 $2 | tee $server >$loop
