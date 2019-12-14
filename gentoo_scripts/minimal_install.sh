@@ -1,11 +1,5 @@
 #!/bin/sh
 
-ifconfig -a | less
-echo "Which network interface will you be using?: "
-read nif
-
-net-setup $nif
-
 parted --script -a optimal -- /dev/sda \
        mklabel gpt \
        unit mib \
