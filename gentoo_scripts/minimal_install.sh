@@ -8,10 +8,11 @@ parted --script -a optimal -- /dev/sda \
        set 1 bios_grub on \
        mkpart primary 3 131 \
        name 2 boot \
+       set 2 boot on
        mkpart primary 131 -1 \
        name 3 rootfs
 
-mkfs.ext2 /dev/sda2
+mkfs.fat -T 32 /dev/sda2
 mkfs.ext4 /dev/sda3
 
 mount /dev/sda3 /mnt/gentoo
@@ -29,11 +30,11 @@ links https://gentoo.org/downloads/
 
 tar xpvf stage3-*.tar.xz --xattrs-include='*.*' --numeric-owner
 
-echo "COMMON_FLAGS="-march=native -O2 -pipe"
+echo 'COMMON_FLAGS="-O2 -pipe"
 CFLAGS="${COMMON_FLAGS}"
 CXXFLAGS="${COMMON_FLAGS}" 
 MAKEOPTS="-j4" 
-VIDEO_CARDS="intel nvidia"" > /mnt/gentoo/etc/portage/make.conf
+VIDEO_CARDS="intel nvidia"' > /mnt/gentoo/etc/portage/make.conf
 
 mirrorselect -s3 -b10 -D >> /mnt/gentoo/etc/portage/make.conf
 
@@ -87,11 +88,8 @@ echo "/dev/sda3   /            ext4    noatime              0 1" >> /etc/fstab
 echo "hostname="void"" > /etc/conf.d/hostname
 
 cd /etc/init.d 
-ln -s net.lo net.$nif
-rc-update add net.nif default
-
-echo "Set the root password\n"
-passwd
+ln -s net.lo net.wlp3s0
+rc-update add net.wlp3s0 default
 
 emerge -v app-admin/sysklogd
 rc-update add sysklogd default
@@ -102,13 +100,15 @@ emerge -v sys-fs/dosfstools
 emerge -v net-misc/dhcpcd
 emerge -v net-wireless/iw net-wireless/wpa_supplicant
 
-emerge -v --verbose sys-boot/grub:2
-grub-install /dev/sda
+echo 'GRUB_PLATFORMS="efi-64"' >> /etc/portage/make.conf
+emerge -v sys-boot/grub:2
+grub-install --target=x86_64-efi --efi-directory=/boot
 grub-mkconfig -o /boot/grub/grub.cfg
 
 exit
+EOF
+
 cd
 umount -l /mnt/gentoo/dev{/shm,/pts,}
 umount -R /mnt/gentoo
 reboot
-EOF
