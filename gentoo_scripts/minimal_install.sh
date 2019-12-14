@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 ifconfig -a | less
 echo "Which network interface will you be using?: "
@@ -22,7 +22,7 @@ mkfs.ext4 /dev/sda3
 
 mount /dev/sda3 /mnt/gentoo
 
-dd if=/dev/zero of=/mnt/gentoo/swapfile bs=1Mib count=2048
+dd if=/dev/zero of=/mnt/gentoo/swapfile bs=1MB count=2048
 chmod 600 /mnt/gentoo/swapfile
 mkswap /mnt/gentoo/swapfile
 swapon /mnt/gentoo/swapfile
@@ -31,7 +31,7 @@ ntpd -q -g
 
 cd /mnt/gentoo
 
-wget -r -l1 --no-parent -A "stage3-amd64-*.tar.xz" https://distfiles.gentoo.org/releases/amd64/autobuilds/
+links https://gentoo.org/downloads/
 
 tar xpvf stage3-*.tar.xz --xattrs-include='*.*' --numeric-owner
 
