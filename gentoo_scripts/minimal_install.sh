@@ -6,7 +6,7 @@ read nif
 
 net-setup $nif
 
-parted -a optimal --script /dev/sda \
+parted --script -a optimal -- /dev/sda \
        mklabel gpt \
        unit mib \
        mkpart primary 1 3 \
