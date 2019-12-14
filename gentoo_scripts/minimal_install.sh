@@ -12,7 +12,7 @@ parted --script -a optimal -- /dev/sda \
        mkpart primary 131 -1 \
        name 3 rootfs
 
-mkfs.fat -T 32 /dev/sda2
+mkfs.fat -F 32 /dev/sda2
 mkfs.ext4 /dev/sda3
 
 mount /dev/sda3 /mnt/gentoo
