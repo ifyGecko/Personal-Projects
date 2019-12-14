@@ -59,12 +59,7 @@ mount /dev/sda2 /boot
 emerge-webrsync
 emerge --sync
 
-eselect profile list | less
-
-echo "Which profile do you want?: "
-read prof
-
-eselect profile set $prof
+eselect profile set 18
 
 emerge -vuDN @world
 
