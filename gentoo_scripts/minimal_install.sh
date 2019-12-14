@@ -49,7 +49,7 @@ mount --make-rslave /mnt/gentoo/sys
 mount --rbind /dev /mnt/gentoo/dev
 mount --make-rslave /mnt/gentoo/dev
 
-chroot /mnt/gentoo /bin/bash
+chroot /mnt/gentoo /bin/bash -x <<'EOF'
 source /etc/profile
 export PS1="(chroot) ${PS1}"
 
@@ -116,4 +116,4 @@ cd
 umount -l /mnt/gentoo/dev{/shm,/pts,}
 umount -R /mnt/gentoo
 reboot
-
+EOF
