@@ -35,7 +35,7 @@ CXXFLAGS="${COMMON_FLAGS}"
 MAKEOPTS="-j4" 
 VIDEO_CARDS="intel nvidia"" > /mnt/gentoo/etc/portage/make.conf
 
-mirrorselect -i -o >> /mnt/gentoo/etc/portage/make.conf
+mirrorselect -s3 -b10 -D >> /mnt/gentoo/etc/portage/make.conf
 
 mkdir --parents /mnt/gentoo/etc/portage/repos.conf
 
