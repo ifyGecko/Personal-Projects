@@ -3,19 +3,17 @@
 parted --script -a optimal -- /dev/sda \
        mklabel gpt \
        unit mib \
-       mkpart primary 1 3 \
-       name 1 grub \
+       mkpart primary 1 100 \
+       name 1 efi \
        set 1 bios_grub on \
-       mkpart primary 3 131 \
-       name 2 boot \
-       set 2 boot on \
-       mkpart primary 131 -1 \
-       name 3 rootfs
+       set 1 boot on \
+       mkpart primary 100 -1 \
+       name 2 rootfs
 
-mkfs.fat -F 32 -n efi-boot /dev/sda2
-mkfs.ext4 /dev/sda3
+mkfs.fat -F 32 -n efi-boot /dev/sda1
+mkfs.ext4 /dev/sda2
 
-mount /dev/sda3 /mnt/gentoo
+mount /dev/sda2 /mnt/gentoo
 
 dd if=/dev/zero of=/mnt/gentoo/swapfile bs=1MB count=2048
 chmod 600 /mnt/gentoo/swapfile
@@ -55,7 +53,7 @@ source /etc/profile
 export PS1="(chroot) ${PS1}"
 
 mkdir /boot/efi
-mount /dev/sda2 /boot/efi
+mount /dev/sda1 /boot/efi
 
 emerge-webrsync
 emerge --sync
@@ -77,13 +75,13 @@ emerge -v sys-kernel/gentoo-sources
 
 emerge -v sys-kernel/genkernel
 
-echo "/dev/sda2	/boot/efi	vfat	noauto,noatime	0 2" > /etc/fstab
+echo "/dev/sda1	/boot/efi	vfat	noauto,noatime	0 2" > /etc/fstab
 
 genkernel all
 
 emerge -v sys-kernel/linux-firmware
 
-echo "/dev/sda3   /            ext4    noatime              0 1" >> /etc/fstab
+echo "/dev/sda2   /            ext4    noatime              0 1" >> /etc/fstab
 
 echo "hostname="void"" > /etc/conf.d/hostname
 
