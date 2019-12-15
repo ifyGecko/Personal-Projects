@@ -1,16 +1,15 @@
-#!/bin/sh
+#!/bin/bash
 
 parted --script -a optimal -- /dev/sda \
        mklabel gpt \
        unit mib \
-       mkpart primary 1 100 \
-       name 1 efi \
+       mkpart primary 1 300 \
+       name 1 grub \
        set 1 bios_grub on \
-       set 1 boot on \
-       mkpart primary 100 -1 \
+       mkpart primary 300 -1 \
        name 2 rootfs
 
-mkfs.fat -F 32 -n efi-boot /dev/sda1
+mkfs.ext2 /dev/sda1
 mkfs.ext4 /dev/sda2
 
 mount /dev/sda2 /mnt/gentoo
@@ -52,8 +51,7 @@ chroot /mnt/gentoo /bin/bash -x <<'EOF'
 source /etc/profile
 export PS1="(chroot) ${PS1}"
 
-mkdir /boot/efi
-mount /dev/sda1 /boot/efi
+mount /dev/sda1 /boot
 
 emerge-webrsync
 emerge --sync
@@ -75,7 +73,7 @@ emerge -v sys-kernel/gentoo-sources
 
 emerge -v sys-kernel/genkernel
 
-echo "/dev/sda1	/boot/efi	vfat	noauto,noatime	0 2" > /etc/fstab
+echo "/dev/sda1	/boot	ext2	defaults,noatime	0 2" > /etc/fstab
 
 genkernel all
 
@@ -98,9 +96,8 @@ emerge -v sys-fs/dosfstools
 emerge -v net-misc/dhcpcd
 emerge -v net-wireless/iw net-wireless/wpa_supplicant
 
-echo 'GRUB_PLATFORMS="efi-64"' >> /etc/portage/make.conf
 emerge -v sys-boot/grub:2
-grub-install --target=x86_64-efi --efi-directory=/boot/efi
+grub-install /dev/sda
 grub-mkconfig -o /boot/grub/grub.cfg
 
 exit
