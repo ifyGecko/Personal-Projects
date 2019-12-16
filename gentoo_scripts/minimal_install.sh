@@ -27,11 +27,7 @@ links https://gentoo.org/downloads/
 
 tar xpvf stage3-*.tar.xz --xattrs-include='*.*' --numeric-owner
 
-echo 'COMMON_FLAGS="-O2 -pipe"
-CFLAGS="${COMMON_FLAGS}"
-CXXFLAGS="${COMMON_FLAGS}" 
-MAKEOPTS="-j4" 
-VIDEO_CARDS="intel nvidia"' > /mnt/gentoo/etc/portage/make.conf
+echo 'MAKEOPTS="-j4"' >> /mnt/gentoo/etc/portage/make.conf
 
 mirrorselect -s3 -b10 -D >> /mnt/gentoo/etc/portage/make.conf
 
