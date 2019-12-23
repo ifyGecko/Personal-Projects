@@ -69,7 +69,11 @@ env-update && source /etc/profile && export PS1="(chroot) $PS1"
 
 emerge -v sys-kernel/gentoo-sources
 
-emerge -v sys-kernel/genkernel
+emerge --autounmask sys-kernel/genkernel
+
+echo "-3" | etc-update
+
+emerge sys-kernel/genkernel
 
 echo "/dev/sda2      /boot  ext2   defaults,noatime     0 2" > /etc/fstab
 
