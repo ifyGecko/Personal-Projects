@@ -69,7 +69,7 @@ env-update && source /etc/profile && export PS1="(chroot) $PS1"
 
 emerge sys-kernel/gentoo-sources
 
-emerge --autounmask sys-kernel/genkernel
+emerge --autounmask-write sys-kernel/genkernel
 
 echo "-3" | etc-update
 
