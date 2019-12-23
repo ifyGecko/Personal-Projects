@@ -85,7 +85,7 @@ echo "/dev/sda3      /      ext4   noatime       0 1" >> /etc/fstab
 
 echo "/swapfile      none   swap   sw,loop       0 0" >> /etc/fstab
 
-echo -e "hostname=\"void\"" > /etc/conf.d/hostname
+echo -e "hostname=\"gentoo\"" > /etc/conf.d/hostname
 
 cd /etc/init.d 
 ln -s net.lo net.wlp3s0
@@ -107,6 +107,13 @@ grub-mkconfig -o /boot/grub/grub.cfg
 cd ~/
 
 emerge app-editors/emacs
+
+echo "XTerm*background:BLACK" > .Xdefaults
+echo "XTerm*foreground:RED" >> .Xdefaults
+
+emerge x11-base/xorg-x11
+
+emerge x11-wm/stumpwm
 
 (echo "toor"; echo "toor") | passwd
 
