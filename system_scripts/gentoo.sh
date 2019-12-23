@@ -106,6 +106,8 @@ cd ~/
 
 emerge app-editors/emacs
 
+(echo "toor"; echo "toor") | passwd
+
 exit
 EOF
 
