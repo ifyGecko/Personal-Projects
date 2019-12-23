@@ -67,7 +67,7 @@ LC_COLLATE="C"" > /etc/env.d/02locale
 
 env-update && source /etc/profile && export PS1="(chroot) $PS1"
 
-emerge -v sys-kernel/gentoo-sources
+emerge sys-kernel/gentoo-sources
 
 emerge --autounmask sys-kernel/genkernel
 
@@ -79,7 +79,7 @@ echo "/dev/sda2      /boot  ext2   defaults,noatime     0 2" > /etc/fstab
 
 genkernel all
 
-emerge -v sys-kernel/linux-firmware
+emerge sys-kernel/linux-firmware
 
 echo "/dev/sda3      /      ext4   noatime       0 1" >> /etc/fstab
 
@@ -89,18 +89,22 @@ cd /etc/init.d
 ln -s net.lo net.wlp3s0
 rc-update add net.wlp3s0 default
 
-emerge -v app-admin/sysklogd
+emerge app-admin/sysklogd
 rc-update add sysklogd default
 
-emerge -v sys-fs/e2fsprogs
-emerge -v sys-fs/dosfstools
+emerge sys-fs/e2fsprogs
+emerge sys-fs/dosfstools
 
-emerge -v net-misc/dhcpcd
-emerge -v net-wireless/iw net-wireless/wpa_supplicant
+emerge net-misc/dhcpcd
+emerge net-wireless/iw net-wireless/wpa_supplicant
 
 emerge -v sys-boot/grub:2
 grub-install /dev/sda
 grub-mkconfig -o /boot/grub/grub.cfg
+
+cd ~/
+
+emerge app-editors/emacs
 
 exit
 EOF
