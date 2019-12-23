@@ -83,7 +83,9 @@ emerge sys-kernel/linux-firmware
 
 echo "/dev/sda3      /      ext4   noatime       0 1" >> /etc/fstab
 
-echo "hostname="void"" > /etc/conf.d/hostname
+echo "/swapfile      none   swap   sw,loop       0 0" >> /etc/fstab
+
+echo -e "hostname=\"void\"" > /etc/conf.d/hostname
 
 cd /etc/init.d 
 ln -s net.lo net.wlp3s0
