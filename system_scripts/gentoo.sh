@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 parted --script -a optimal -- /dev/sda \
        mklabel gpt \
