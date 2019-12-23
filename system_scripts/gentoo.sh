@@ -70,9 +70,7 @@ env-update && source /etc/profile && export PS1="(chroot) $PS1"
 emerge sys-kernel/gentoo-sources
 
 emerge --autounmask-write sys-kernel/genkernel
-
 echo "-3" | etc-update
-
 emerge sys-kernel/genkernel
 
 echo "/dev/sda2      /boot  ext2   defaults,noatime     0 2" > /etc/fstab
@@ -111,6 +109,8 @@ emerge app-editors/emacs
 echo "XTerm*background:BLACK" > .Xdefaults
 echo "XTerm*foreground:RED" >> .Xdefaults
 
+emerge --autounmask-write x11-base/xorg-x11
+echo "-5" | etc-update
 emerge x11-base/xorg-x11
 
 emerge x11-wm/stumpwm
