@@ -146,16 +146,12 @@ useradd -m -G users,wheel -s /bin/bash ifyGecko
 
 # optional (multiline comment, remove to use)
 : '
-cd /home/ifyGecko
-emerge x11-base/xorg-server
-emerge x11-wm/ratpoison
-emerge x11-terms/xterm
+su - ifyGecko
+echo "password" | sudo -S emerge x11-base/xorg-server x11-wm/ratpoison x11-terms/xterm app-editors/emacs app-misc/ranger www-client/links
 echo "XTerm*background:BLACK" > .Xdefaults
 echo "XTerm*foreground:RED" >> .Xdefaults
 echo "startx /usr/bin/ratpoison" > .xinitrc
-emerge app-editors/emacs
-emerge app-misc/ranger
-emerge www-client/links
+exit
 '
 
 exit
