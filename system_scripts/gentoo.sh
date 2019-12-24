@@ -133,6 +133,9 @@ emerge sys-boot/grub:2
 grub-install /dev/sda
 grub-mkconfig -o /boot/grub/grub.cfg
 
+# install sudo cmd
+emerge app-admin/sudo
+
 # set default root password
 (echo "toor"; echo "toor") | passwd
 
