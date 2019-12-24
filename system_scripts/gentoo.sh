@@ -146,7 +146,6 @@ useradd -m -G users,wheel -s /bin/bash ifyGecko
 
 # optional (multiline comment, remove to use)
 : '
-su - ifyGecko
 emerge x11-base/xorg-server x11-wm/ratpoison x11-terms/xterm app-editors/emacs app-misc/ranger www-client/links
 su - ifyGecko
 echo "XTerm*background:BLACK" > .Xdefaults
