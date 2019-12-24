@@ -95,22 +95,22 @@ emerge sys-kernel/gentoo-sources
 emerge app-portage/cpuid2cpuflags
 echo "*/* $(cpuid2cpuflags)" > /etc/portage/package.use/00cpu-flags
 
+# create fstab
+echo "/dev/sda2      /boot  ext2   defaults,noatime     0 2" > /etc/fstab
+echo "/dev/sda3      /      ext4   noatime       0 1" >> /etc/fstab
+echo "/swapfile      none   swap   sw,loop       0 0" >> /etc/fstab
+
+# install optional firmware
+emerge sys-kernel/linux-firmware
+
 ### Need to figure out why --autounmask is needed ###
 emerge --autounmask-write sys-kernel/genkernel
 echo "-3" | etc-update
 emerge sys-kernel/genkernel
 #####################################################
 
-# create fstab
-echo "/dev/sda2      /boot  ext2   defaults,noatime     0 2" > /etc/fstab
-echo "/dev/sda3      /      ext4   noatime       0 1" >> /etc/fstab
-echo "/swapfile      none   swap   sw,loop       0 0" >> /etc/fstab
-
 # auto generate and install linux kernel 
 genkernel all
-
-# install optional firmware
-emerge sys-kernel/linux-firmware
 
 # define a system hostname
 echo 'hostname="gentoo"' > /etc/conf.d/hostname
@@ -133,15 +133,19 @@ emerge sys-boot/grub:2
 grub-install /dev/sda
 grub-mkconfig -o /boot/grub/grub.cfg
 
-# install sudo cmd
+# setup sudo cmd
 emerge app-admin/sudo
 
-# set default root password
-(echo "toor"; echo "toor") | passwd
+# create user
+useradd -m -G users,wheel -s /bin/bash ifyGecko
+
+# set default user password (leaving root passwd undefined)
+(echo "password"; echo "password") | passwd ifyGecko
 
 
 # optional (multiline comment, remove to use)
 : '
+su - ifyGecko
 cd ~/
 emerge x11-base/xorg-server
 emerge x11-wm/ratpoison
@@ -151,7 +155,7 @@ echo "XTerm*foreground:RED" >> .Xdefaults
 echo "startx /usr/bin/ratpoison" > .xinitrc
 emerge app-editors/emacs
 emerge app-misc/ranger
-emerge www-client/firefox
+emerge www-client/links
 '
 
 exit
