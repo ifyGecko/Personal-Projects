@@ -31,8 +31,6 @@ tar xpvf stage3-*.tar.xz --xattrs-include='*.*' --numeric-owner
 
 echo 'MAKEOPTS="-j4"' >> /mnt/gentoo/etc/portage/make.conf
 
-echo 'ACCEPT_KEYWORDS="~amd64"' >> /mnt/gentoo/etc/portage/make.conf
-
 mirrorselect -s3 -b10 -D >> /mnt/gentoo/etc/portage/make.conf
 
 mkdir --parents /mnt/gentoo/etc/portage/repos.conf
@@ -113,11 +111,7 @@ emerge app-editors/emacs
 echo "XTerm*background:BLACK" > .Xdefaults
 echo "XTerm*foreground:RED" >> .Xdefaults
 
-emerge --autounmask-write x11-base/xorg-x11
-echo "-5" | etc-update
-emerge x11-base/xorg-x11
-
-emerge x11-wm/stumpwm
+emerge x11-base/xorg-server
 
 exit
 EOF
