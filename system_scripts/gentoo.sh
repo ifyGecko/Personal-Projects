@@ -135,8 +135,9 @@ grub-mkconfig -o /boot/grub/grub.cfg
 
 # setup sudo cmd
 emerge app-admin/sudo
+echo "%wheel ALL=(ALL) ALL" > /etc/sudoers
 
-# create user
+# create user account
 useradd -m -G users,wheel -s /bin/bash ifyGecko
 
 # set default user password (leaving root passwd undefined)
@@ -145,8 +146,7 @@ useradd -m -G users,wheel -s /bin/bash ifyGecko
 
 # optional (multiline comment, remove to use)
 : '
-su - ifyGecko
-cd ~/
+cd /home/ifyGecko
 emerge x11-base/xorg-server
 emerge x11-wm/ratpoison
 emerge x11-terms/xterm
