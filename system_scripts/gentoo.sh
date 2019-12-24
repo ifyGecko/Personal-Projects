@@ -142,8 +142,10 @@ grub-mkconfig -o /boot/grub/grub.cfg
 cd ~/
 emerge x11-base/xorg-server
 emerge x11-wm/ratpoison
+emerge x11-terms/xterm
 echo "XTerm*background:BLACK" > .Xdefaults
 echo "XTerm*foreground:RED" >> .Xdefaults
+echo "startx /usr/bin/ratpoison" > .xinitrc
 emerge app-editors/emacs
 emerge app-misc/ranger
 emerge www-client/firefox
