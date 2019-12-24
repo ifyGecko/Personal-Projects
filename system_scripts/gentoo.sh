@@ -91,6 +91,10 @@ env-update && source /etc/profile && export PS1="(chroot) $PS1"
 # install kernel sources
 emerge sys-kernel/gentoo-sources
 
+# set cpu flags
+emerge app-portage/cpuid2cpuflags
+echo "*/* $(cpuid2cpuflags)" > /etc/portage/package.use/00cpu-flags
+
 ### Need to figure out why --autounmask is needed ###
 emerge --autounmask-write sys-kernel/genkernel
 echo "-3" | etc-update
