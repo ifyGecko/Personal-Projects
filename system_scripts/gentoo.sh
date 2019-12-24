@@ -145,6 +145,7 @@ emerge x11-wm/ratpoison
 echo "XTerm*background:BLACK" > .Xdefaults
 echo "XTerm*foreground:RED" >> .Xdefaults
 emerge app-editors/emacs
+emerge app-misc/ranger
 emerge www-client/firefox
 '
 
