@@ -13,7 +13,7 @@ parted --script -a optimal -- /dev/sda \
        set 1 bios_grub on \
        mkpart primary 3 131 \
        name 2 boot \
-       mkpart primary 300 -1 \
+       mkpart primary 131 -1 \
        name 3 rootfs
 
 # format new partitions
