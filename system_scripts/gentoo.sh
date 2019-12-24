@@ -31,6 +31,8 @@ tar xpvf stage3-*.tar.xz --xattrs-include='*.*' --numeric-owner
 
 echo 'MAKEOPTS="-j4"' >> /mnt/gentoo/etc/portage/make.conf
 
+echo 'ACCEPT_KEYWORDS="~amd64"' >> /mnt/gentoo/etc/portage/make.conf
+
 mirrorselect -s3 -b10 -D >> /mnt/gentoo/etc/portage/make.conf
 
 mkdir --parents /mnt/gentoo/etc/portage/repos.conf
@@ -83,7 +85,7 @@ echo "/dev/sda3      /      ext4   noatime       0 1" >> /etc/fstab
 
 echo "/swapfile      none   swap   sw,loop       0 0" >> /etc/fstab
 
-echo -e "hostname=\"gentoo\"" > /etc/conf.d/hostname
+echo 'hostname="gentoo"' > /etc/conf.d/hostname
 
 cd /etc/init.d 
 ln -s net.lo net.wlp3s0
@@ -102,6 +104,8 @@ emerge -v sys-boot/grub:2
 grub-install /dev/sda
 grub-mkconfig -o /boot/grub/grub.cfg
 
+(echo "toor"; echo "toor") | passwd
+
 cd ~/
 
 emerge app-editors/emacs
@@ -114,8 +118,6 @@ echo "-5" | etc-update
 emerge x11-base/xorg-x11
 
 emerge x11-wm/stumpwm
-
-(echo "toor"; echo "toor") | passwd
 
 exit
 EOF
