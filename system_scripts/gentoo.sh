@@ -156,8 +156,8 @@ emerge app-editors/emacs app-misc/ranger www-client/links
 exit
 EOF
 
-# unmount and reboot
+# unmount and shutdown
 cd
 umount -l /mnt/gentoo/dev{/shm,/pts,}
 umount -R /mnt/gentoo
-shutdown -h now
+shutdown -P now
