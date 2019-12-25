@@ -64,14 +64,13 @@ mount --make-rslave /mnt/gentoo/dev
 # chroot to /mnt/gentoo
 chroot /mnt/gentoo /bin/bash -x <<'EOF'
 source /etc/profile
-export PS1="(chroot) ${PS1}"
 
 # mount /boot partition
 mount /dev/sda2 /boot
 
 # grab latest portage snapshot
 emerge-webrsync
-emerge --sync
+#emerge --sync
 
 # set hardened profile
 eselect profile set 18
@@ -86,7 +85,7 @@ echo 'LANG="en_US.UTF-8"
 LC_COLLATE="C"' > /etc/env.d/02locale
 
 # update environment
-env-update && source /etc/profile && export PS1="(chroot) $PS1"
+env-update && source /etc/profile
 
 # install kernel sources
 emerge sys-kernel/gentoo-sources
