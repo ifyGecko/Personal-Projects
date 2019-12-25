@@ -157,7 +157,6 @@ exit
 EOF
 
 # unmount and shutdown
-cd
 umount -l /mnt/gentoo/dev{/shm,/pts,}
 umount -R /mnt/gentoo
 shutdown -P now
