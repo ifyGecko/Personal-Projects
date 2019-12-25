@@ -115,7 +115,7 @@ emerge sys-kernel/linux-firmware
 echo 'hostname="gentoo"' > /etc/conf.d/hostname
 
 # bring netif up on boot using dhcp
-echo 'config_eth0="dhcp"' > /etc/conf.d/net
+echo 'config_enp3s0="dhcp"' > /etc/conf.d/net
 cd /etc/init.d 
 ln -s net.lo net.enp3s0
 rc-update add net.enp3s0 default
