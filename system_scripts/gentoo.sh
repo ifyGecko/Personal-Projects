@@ -82,8 +82,8 @@ emerge -vuDN @world
 # set timezone and locale
 echo "America/Chicago" > /etc/timezone
 emerge --config sys-libs/timezone-data
-echo "LANG="en_US.UTF-8"
-LC_COLLATE="C"" > /etc/env.d/02locale
+echo 'LANG="en_US.UTF-8"
+LC_COLLATE="C"' > /etc/env.d/02locale
 
 # update environment
 env-update && source /etc/profile && export PS1="(chroot) $PS1"
