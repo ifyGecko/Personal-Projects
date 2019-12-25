@@ -77,7 +77,7 @@ emerge --sync
 eselect profile set 18
 
 # update @world set
-emerge -vuDN @world
+# emerge -vuDN @world
 
 # set timezone and locale
 echo "America/Chicago" > /etc/timezone
@@ -93,24 +93,23 @@ emerge sys-kernel/gentoo-sources
 
 # set cpu flags
 emerge app-portage/cpuid2cpuflags
-echo "*/* $(cpuid2cpuflags)" > /etc/portage/package.use/00cpu-flags
+echo -e "CPU_FLAGS_X86=\"$(cpuid2cpuflags | cut -d':' -f2 | cut -d' ' -f2-)\""
 
 # create fstab
 echo "/dev/sda2      /boot  ext2   defaults,noatime     0 2" > /etc/fstab
 echo "/dev/sda3      /      ext4   noatime       0 1" >> /etc/fstab
 echo "/swapfile      none   swap   sw,loop       0 0" >> /etc/fstab
 
-# install optional firmware
-emerge sys-kernel/linux-firmware
-
-### Need to figure out why --autounmask is needed ###
+# unmask and install genkernel
 emerge --autounmask-write sys-kernel/genkernel
 echo "-3" | etc-update
 emerge sys-kernel/genkernel
-#####################################################
 
 # auto generate and install linux kernel 
 genkernel all
+
+#install optional linux firmware
+emerge sys-kernel/linux-firmware
 
 # define a system hostname
 echo 'hostname="gentoo"' > /etc/conf.d/hostname
@@ -144,21 +143,21 @@ useradd -m -G users,sudo -s /bin/bash ifyGecko
 # set default user password (leaving root passwd undefined)
 (echo "password"; echo "password") | passwd ifyGecko
 
-
-# optional (multiline comment, remove to use)
-: '
+# install/config X11 packages
 emerge x11-base/xorg-server x11-wm/ratpoison x11-terms/xterm app-editors/emacs app-misc/ranger www-client/links
 su - ifyGecko
 echo "XTerm*background:BLACK" > .Xdefaults
 echo "XTerm*foreground:RED" >> .Xdefaults
 echo "startx /usr/bin/ratpoison" > .xinitrc
 exit
-'
+
+# install misc packages
+emerge app-editors/emacs app-misc/ranger www-client/links
 
 exit
 EOF
 
-# unmount chroot env and reboot
+# unmount and reboot
 cd
 umount -l /mnt/gentoo/dev{/shm,/pts,}
 umount -R /mnt/gentoo
