@@ -137,10 +137,10 @@ groupadd sudo
 echo "%sudo ALL=(ALL) ALL" > /etc/sudoers
 
 # create user account
-useradd -m -G users,sudo -s /bin/bash ifyGecko
+useradd -m -G users,sudo -s /bin/bash user
 
 # set default user password (leaving root passwd undefined)
-(echo "password"; echo "password") | passwd ifyGecko
+(echo "password"; echo "password") | passwd user
 
 # install/config X11 packages
 emerge x11-base/xorg-server x11-wm/ratpoison x11-terms/xterm
