@@ -144,7 +144,7 @@ useradd -m -G users,sudo -s /bin/bash user
 
 # install/config X11 packages
 emerge x11-base/xorg-server x11-wm/ratpoison x11-terms/xterm
-su - ifyGecko
+su - user
 echo "XTerm*background:BLACK" > .Xdefaults
 echo "XTerm*foreground:RED" >> .Xdefaults
 echo "startx /usr/bin/ratpoison" > .xinitrc
