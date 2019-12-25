@@ -42,7 +42,7 @@ links https://gentoo.org/downloads/
 tar xpvf stage3-*.tar.xz --xattrs-include='*.*' --numeric-owner
 
 # set make parallel job count
-echo 'MAKEOPTS="-j4"' >> /mnt/gentoo/etc/portage/make.conf
+echo -e "MAKEOPTS=\"-j$(nproc --all)\"" >> /mnt/gentoo/etc/portage/make.conf
 
 # select 3 fastest mirrors
 mirrorselect -s3 -b10 -D >> /mnt/gentoo/etc/portage/make.conf
