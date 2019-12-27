@@ -1,9 +1,5 @@
 #!/bin/bash 
 
-###############################################################
-###***ONLY USE GENTOO INSTALLATION MEDIA WITH THIS SCRIPT***###
-###############################################################
-
 # set-up disk partitions
 parted --script -a optimal -- /dev/sda \
        mklabel gpt \
@@ -68,15 +64,20 @@ source /etc/profile
 # mount /boot partition
 mount /dev/sda2 /boot
 
+# create fstab
+echo "/dev/sda2      /boot  ext2   defaults,noatime     0 2" > /etc/fstab
+echo "/dev/sda3      /      ext4   noatime       0 1" >> /etc/fstab
+echo "/swapfile      none   swap   sw,loop       0 0" >> /etc/fstab
+echo "tmpfs          /var/tmp/portage     tmpfs  size=4G,uid=portage,gid=portage,mode=775,noatime	0 0" >> /etc/fstab
+
+# mount portage tmpfs - improves emerge time and reduces ssd/hdd wear
+mount /var/tmp/portage
+
 # grab latest portage snapshot
 emerge-webrsync
-#emerge --sync
 
 # set hardened profile
 eselect profile set 18
-
-# update @world set
-# emerge -vuDN @world
 
 # set timezone and locale
 echo "America/Chicago" > /etc/timezone
@@ -92,12 +93,7 @@ emerge sys-kernel/gentoo-sources
 
 # set cpu flags
 emerge app-portage/cpuid2cpuflags
-echo -e "CPU_FLAGS_X86=\"$(cpuid2cpuflags | cut -d':' -f2 | cut -d' ' -f2-)\""
-
-# create fstab
-echo "/dev/sda2      /boot  ext2   defaults,noatime     0 2" > /etc/fstab
-echo "/dev/sda3      /      ext4   noatime       0 1" >> /etc/fstab
-echo "/swapfile      none   swap   sw,loop       0 0" >> /etc/fstab
+echo -e "CPU_FLAGS_X86=\"$(cpuid2cpuflags | cut -d':' -f2 | cut -d' ' -f2-)\"" >> /etc/portage/make.conf
 
 # unmask and install genkernel
 emerge --autounmask-write sys-kernel/genkernel
@@ -134,7 +130,7 @@ grub-mkconfig -o /boot/grub/grub.cfg
 # setup sudo cmd
 emerge app-admin/sudo
 groupadd sudo
-echo "%sudo ALL=(ALL) ALL" > /etc/sudoers
+echo "%sudo ALL=(ALL) ALL" >> /etc/sudoers
 
 # create user account
 useradd -m -G users,sudo -s /bin/bash user
