@@ -148,7 +148,7 @@ useradd -m -G users,sudo -s /bin/bash user
 #exit
 
 # install misc packages
-emerge app-editors/emacs app-misc/ranger www-client/links
+emerge app-editors/emacs app-misc/ranger www-client/links sys-process/htop
 
 exit
 EOF
