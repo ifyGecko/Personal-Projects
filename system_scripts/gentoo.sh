@@ -139,12 +139,12 @@ useradd -m -G users,sudo -s /bin/bash user
 (echo "password"; echo "password") | passwd user
 
 # install/config X11 packages
-emerge x11-base/xorg-server x11-wm/ratpoison x11-terms/xterm
-su - user
-echo "XTerm*background:BLACK" > .Xdefaults
-echo "XTerm*foreground:RED" >> .Xdefaults
-echo "startx /usr/bin/ratpoison" > .xinitrc
-exit
+#emerge x11-base/xorg-server x11-wm/ratpoison x11-terms/xterm
+#su - user
+#echo "XTerm*background:BLACK" > .Xdefaults
+#echo "XTerm*foreground:RED" >> .Xdefaults
+#echo "startx /usr/bin/ratpoison" > .xinitrc
+#exit
 
 # install misc packages
 emerge app-editors/emacs app-misc/ranger www-client/links
@@ -155,4 +155,4 @@ EOF
 # unmount and shutdown
 umount -l /mnt/gentoo/dev{/shm,/pts,}
 umount -R /mnt/gentoo
-shutdown -P now
+#shutdown -P now
