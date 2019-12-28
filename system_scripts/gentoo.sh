@@ -94,6 +94,7 @@ emerge sys-kernel/gentoo-sources
 # set cpu flags
 emerge app-portage/cpuid2cpuflags
 echo -e "CPU_FLAGS_X86=\"$(cpuid2cpuflags | cut -d':' -f2 | cut -d' ' -f2-)\"" >> /etc/portage/make.conf
+emerge -c app-portage/cpuid2cpuflags
 
 # unmask and install genkernel
 emerge --autounmask-write sys-kernel/genkernel
