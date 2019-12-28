@@ -77,7 +77,7 @@ mount /var/tmp/portage
 emerge-webrsync
 
 # set hardened profile
-eselect profile set 18
+eselect profile set 16
 
 # set timezone and locale
 echo "America/Chicago" > /etc/timezone
@@ -138,14 +138,6 @@ useradd -m -G users,sudo -s /bin/bash user
 
 # set default user password (leaving root passwd undefined)
 (echo "password"; echo "password") | passwd user
-
-# install/config X11 packages
-#emerge x11-base/xorg-server x11-wm/ratpoison x11-terms/xterm
-#su - user
-#echo "XTerm*background:BLACK" > .Xdefaults
-#echo "XTerm*foreground:RED" >> .Xdefaults
-#echo "startx /usr/bin/ratpoison" > .xinitrc
-#exit
 
 # install misc packages
 emerge app-editors/emacs app-misc/ranger www-client/links sys-process/htop
