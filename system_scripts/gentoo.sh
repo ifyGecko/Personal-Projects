@@ -2,11 +2,11 @@
 
 # config variables
 printf "Network Interface: "
-nif=read
+export nif=read
 printf "Username: "
-usr=read
+export usr=read
 printf "Password: "
-pswd=read
+export pswd=read
 
 # set-up disk partitions
 parted --script -a optimal -- /dev/sda \
@@ -66,7 +66,7 @@ mount --rbind /dev /mnt/gentoo/dev
 mount --make-rslave /mnt/gentoo/dev
 
 # chroot to /mnt/gentoo
-nif=$nif usr=$usr pswd=$pswd chroot /mnt/gentoo /bin/bash -x << 'EOF'
+chroot /mnt/gentoo /bin/bash -x << 'EOF'
 source /etc/profile
 
 # mount /boot partition
