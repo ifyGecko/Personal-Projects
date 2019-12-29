@@ -1,12 +1,15 @@
 #!/bin/bash 
 
 # config variables
-printf "Network Interface: "
-export nif=read
-printf "Username: "
-export usr=read
-printf "Password: "
-export pswd=read
+nif=''
+usr=''
+pswd=''
+
+if test nif=='' || usr=='' || pswd==''
+then
+echo "error: set config variables"
+exit
+fi
 
 # set-up disk partitions
 parted --script -a optimal -- /dev/sda \
