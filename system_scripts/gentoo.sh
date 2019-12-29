@@ -1,9 +1,9 @@
 #!/bin/bash 
 
 # config variables
-nif=''
-usr=''
-pswd=''
+export nif=''
+export usr=''
+export pswd=''
 
 if test nif=='' || usr=='' || pswd==''
 then
