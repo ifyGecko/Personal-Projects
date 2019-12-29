@@ -1,5 +1,13 @@
 #!/bin/bash 
 
+# config variables
+printf "Network Interface: "
+nif=read
+printf "Username: "
+usr=read
+printf "Password: "
+pswd=read
+
 # set-up disk partitions
 parted --script -a optimal -- /dev/sda \
        mklabel gpt \
@@ -58,7 +66,7 @@ mount --rbind /dev /mnt/gentoo/dev
 mount --make-rslave /mnt/gentoo/dev
 
 # chroot to /mnt/gentoo
-chroot /mnt/gentoo /bin/bash -x <<'EOF'
+nif=$nif usr=$usr pswd=$pswd chroot /mnt/gentoo /bin/bash -x << 'EOF'
 source /etc/profile
 
 # mount /boot partition
@@ -112,14 +120,10 @@ emerge sys-kernel/linux-firmware
 echo 'hostname="gentoo"' > /etc/conf.d/hostname
 
 # bring netif up on boot using dhcp
-echo 'config_enp0s3="dhcp"' > /etc/conf.d/net
+echo -e "config_$nif=\"dhcp\"" > /etc/conf.d/net
 cd /etc/init.d 
-ln -s net.lo net.enp0s3
-rc-update add net.enp0s3 default
-
-# system logging
-emerge app-admin/sysklogd
-rc-update add sysklogd default
+ln -s net.lo net.$nif
+rc-update add net.$nif default
 
 # install dhcp clinet daemon to obtain ip addr for nic(s)
 emerge net-misc/dhcpcd
@@ -135,13 +139,10 @@ groupadd sudo
 echo "%sudo ALL=(ALL) ALL" >> /etc/sudoers
 
 # create user account
-useradd -m -G sudo -s /bin/bash user
+useradd -m -G sudo -s /bin/bash $usr
 
 # set default user password (leaving root passwd undefined)
-(echo "password"; echo "password") | passwd user
-
-# install misc packages
-emerge app-editors/emacs app-misc/ranger www-client/links sys-process/htop
+(echo $pswd; echo $pswd) | passwd $usr
 
 exit
 EOF
