@@ -40,7 +40,7 @@ ntpd -q -g
 cd /mnt/gentoo
 
 # download stage3 archive
-links https://distfiles.gentoo.org
+links https://gentoo.org/downloads/
 
 # unarchive stage3
 tar xpvf stage3-*.tar.xz --xattrs-include='*.*' --numeric-owner
