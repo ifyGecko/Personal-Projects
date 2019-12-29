@@ -32,7 +32,7 @@ ntpd -q -g
 cd /mnt/gentoo
 
 # download stage3 archive
-links https://gentoo.org/downloads/
+links https://distfiles.gentoo.org
 
 # unarchive stage3
 tar xpvf stage3-*.tar.xz --xattrs-include='*.*' --numeric-owner
@@ -146,7 +146,6 @@ emerge app-editors/emacs app-misc/ranger www-client/links sys-process/htop
 exit
 EOF
 
-# unmount and shutdown
+# unmount chroot env
 umount -l /mnt/gentoo/dev{/shm,/pts,}
 umount -R /mnt/gentoo
-#shutdown -P now
