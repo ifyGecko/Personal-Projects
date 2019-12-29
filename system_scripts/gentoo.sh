@@ -76,7 +76,7 @@ mount /var/tmp/portage
 # grab latest portage snapshot
 emerge-webrsync
 
-# set hardened profile
+# set profile
 eselect profile set 16
 
 # set timezone and locale
