@@ -5,7 +5,7 @@ export nif=''
 export usr=''
 export pswd=''
 
-if test nif=='' || usr=='' || pswd==''
+if [ nif == '' ] || [ usr == '' ] || [ pswd == '' ]
 then
 echo "error: set config variables"
 exit
