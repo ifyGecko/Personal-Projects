@@ -88,6 +88,9 @@ LC_COLLATE="C"' > /etc/env.d/02locale
 # update environment
 env-update && source /etc/profile
 
+# accept non-free linux-fw licenses
+echo "sys-kernel/* linux-fw-redistributable no-source-code" > /etc/portage/package.license
+
 # install kernel sources
 emerge sys-kernel/gentoo-sources
 
@@ -97,8 +100,6 @@ echo -e "CPU_FLAGS_X86=\"$(cpuid2cpuflags | cut -d':' -f2 | cut -d' ' -f2-)\"" >
 emerge -c app-portage/cpuid2cpuflags
 
 # unmask and install genkernel
-emerge --autounmask-write sys-kernel/genkernel
-echo "-3" | etc-update
 emerge sys-kernel/genkernel
 
 # auto generate and install linux kernel 
