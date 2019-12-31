@@ -7,8 +7,8 @@ export pswd=''
 
 if [ nif == '' ] || [ usr == '' ] || [ pswd == '' ]
 then
-echo "error: set config variables"
-exit
+       echo "error: set config variables"
+       exit
 fi
 
 # set-up disk partitions
