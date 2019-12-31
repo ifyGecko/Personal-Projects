@@ -30,8 +30,8 @@ mkfs.ext4 /dev/sda3
 # mount root partition
 mount /dev/sda3 /mnt/gentoo
 
-# set-up swapfile to use for swap space (instead of swap partition)
-dd if=/dev/zero of=/mnt/gentoo/swapfile bs=1MB count=2048
+# set-up swapfile 20% the size of main memory
+dd if=/dev/zero of=/mnt/gentoo/swapfile bs=1MB count=$(bc <<< "scale=0; $(free -m  | grep Mem | awk '{print $2}')*0.2/1")
 chmod 600 /mnt/gentoo/swapfile
 mkswap /mnt/gentoo/swapfile
 swapon /mnt/gentoo/swapfile
