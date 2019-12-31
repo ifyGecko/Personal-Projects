@@ -4,8 +4,9 @@
 export nif=''
 export usr=''
 export pswd=''
+export hostname=''
 
-if [ nif == '' ] || [ usr == '' ] || [ pswd == '' ]
+if [ nif == '' ] || [ usr == '' ] || [ pswd == '' ] || [ hostname == '' ]
 then
        echo "error: set config variables"
        exit
@@ -120,7 +121,7 @@ genkernel all
 emerge sys-kernel/linux-firmware
 
 # define a system hostname
-echo 'hostname="gentoo"' > /etc/conf.d/hostname
+echo -e "hostname=\"$hostname\"" > /etc/conf.d/hostname
 
 # bring netif up on boot using dhcp
 echo -e "config_$nif=\"dhcp\"" > /etc/conf.d/net
