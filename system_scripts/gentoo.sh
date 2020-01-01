@@ -25,8 +25,8 @@ parted --script -a optimal -- /dev/sda \
        name 3 rootfs
 
 # format new partitions
-mkfs.ext2 /dev/sda2
-mkfs.ext4 /dev/sda3
+mkfs.ext2 -F /dev/sda2
+mkfs.ext4 -F /dev/sda3
 
 # mount root partition
 mount /dev/sda3 /mnt/gentoo
