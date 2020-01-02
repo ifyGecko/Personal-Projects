@@ -31,13 +31,13 @@ mkfs.ext4 -F /dev/sda3
 # mount root partition
 mount /dev/sda3 /mnt/gentoo
 
-# set-up swapfile 20% the size of main memory
+# set-up swapfile ~20% the size of main memory
 dd if=/dev/zero of=/mnt/gentoo/swapfile bs=1MB count=$(bc <<< "scale=0; $(free -m  | grep Mem | awk '{print $2}')*0.2/1")
 chmod 600 /mnt/gentoo/swapfile
 mkswap /mnt/gentoo/swapfile
 swapon /mnt/gentoo/swapfile
 
-# network time protocal daemon
+# set system time
 ntpd -q -g
 
 # change directory to install stage3
@@ -116,9 +116,6 @@ emerge sys-kernel/genkernel
 
 # auto generate and install linux kernel 
 genkernel all
-
-#install optional linux firmware
-emerge sys-kernel/linux-firmware
 
 # define a system hostname
 echo -e "hostname=\"$hostname\"" > /etc/conf.d/hostname
