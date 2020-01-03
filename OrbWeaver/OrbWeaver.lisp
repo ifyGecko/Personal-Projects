@@ -1,5 +1,4 @@
 ;;;constants
-;(defconstant e (compute-e 1000))
 (defconstant e 2.7182818284590452353602874713527)
 (defconstant i #C(0 1))
 (defconstant -i #C(0 -1))
