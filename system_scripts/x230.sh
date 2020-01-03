@@ -195,9 +195,12 @@ mount -o remount,size=7.1G /var/tmp/portage
 emerge www-client/firefox
 
 # power management
-echo 'app-laptop/laptop-mode-tools acpi' >> /etc/portage/package.use
+echo 'app-laptop/laptop-mode-tools acpi
+dev-libs/libgcrypt static-libs
+dev-libs/libgpg-error static-libs
+dev-libs/lzo static-libs' >> /etc/portage/package.use
 
-emerge app-laptop/laptop-mode-tools
+emerge app-laptop/laptop-mode-tools sys-power/suspend
 
 rc-update add laptop_mode default
 
