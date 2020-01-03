@@ -154,7 +154,7 @@ QEMU_USER_TARGETS="x86_64"' >> /etc/portage/make.conf
 
 rm -rf /etc/portage/package.use
 
-echo 'app-emulation/qemu ssh spice vnc virgl virtfs vhost-net vhost-user-fs vde png opengl jpeg aio usbredir' > /etc/portage/package.use
+echo 'app-emulation/qemu 'spice virgl virtfs vde opengl usbredir -xen' > /etc/portage/package.use
 
 emerge app-emulation/qemu
 
