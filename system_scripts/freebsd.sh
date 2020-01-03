@@ -10,3 +10,5 @@ echo "XTerm*background:BLACK" > .Xdefaults
 echo "XTerm*foreground:RED" >> .Xdefaults
 
 pkg install -y emacs-nox
+
+pkg install -y firefox
