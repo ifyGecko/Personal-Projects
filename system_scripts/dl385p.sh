@@ -134,16 +134,50 @@ emerge sys-boot/grub:2
 grub-install /dev/sda
 grub-mkconfig -o /boot/grub/grub.cfg
 
+# install emacs
+emerge app-editors/emacs
+
 # setup sudo cmd
 emerge app-admin/sudo
 groupadd sudo
-echo "%sudo ALL=(ALL) ALL" >> /etc/sudoers
+echo "%sudo ALL=(ALL) /usr/bin/emacs" >> /etc/sudoers
 
 # create user account
 useradd -m -G sudo -s /bin/bash $usr
 
 # set default user password (leaving root passwd undefined)
 (echo $pswd; echo $pswd) | passwd $usr
+
+# qemu-kvm
+echo 'QEMU_SOFTMMU_TARGETS="x86_64"
+QEMU_USER_TARGETS="x86_64"' >> /etc/portage/make.conf
+
+rm -rf /etc/portage/package.use
+
+echo 'app-emulation/qemu spice vnc virgl virtfs vhost-net vhost-user-fs vde png opengl jpeg aio usbredir' > /etc/portage/package.use
+
+emerge app-emulation/qemu
+
+gpasswd -a $usr kvm
+
+# libvirt(d)
+echo 'app-emulation/libvirt libvirtd virt-network macvtap libssh qemu
+
+groupadd libvirt
+gpasswd -a $usr libvirt
+
+cp /etc/libvirt/libvirtd.conf /etc/libvirt/libvirtd.conf.bak
+
+echo 'auth_unix_ro = "none"
+auth_unix_rw = "none"
+unix_sock_group = "libvirt"
+unix_sock_ro_perms = "0777"
+unix_sock_rw_perms = "0770"' > /etc/libvirt/libvirtd.conf
+
+rc-update add libvirtd default
+
+# start sshd service to default run level
+rc-update add sshd default
 
 exit
 EOF
