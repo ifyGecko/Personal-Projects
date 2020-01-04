@@ -161,7 +161,7 @@ emerge app-emulation/qemu
 gpasswd -a $usr kvm
 
 # libvirt(d)
-echo 'app-emulation/libvirt libvirtd virt-network macvtap libssh qemu
+emerge app-emulation/libvirt
 
 groupadd libvirt
 gpasswd -a $usr libvirt
