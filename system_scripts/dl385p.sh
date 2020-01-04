@@ -176,8 +176,11 @@ unix_sock_rw_perms = "0770"' > /etc/libvirt/libvirtd.conf
 
 rc-update add libvirtd default
 
-# start sshd service to default run level
+# set sshd service to default run level
 rc-update add sshd default
+
+# power management
+emerge sys-power/suspend
 
 exit
 EOF
