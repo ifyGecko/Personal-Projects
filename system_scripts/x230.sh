@@ -153,7 +153,9 @@ emerge x11-base/xorg-server x11-wm/ratpoison x11-terms/xterm
 su - $usr
 echo "startx /usr/bin/ratpoison" > .xinitrc
 echo "XTerm*background:BLACK
-XTerm*foreground:RED" > .Xdefaults
+XTerm*foreground:RED
+XTerm*eightBitInput:false
+XTerm*eightBitInput:true" > .Xdefaults
 exit
 
 # qemu-kvm with virt-manager
