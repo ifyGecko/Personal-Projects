@@ -207,7 +207,7 @@ emerge app-laptop/laptop-mode-tools sys-power/suspend
 rc-update add laptop_mode default
 
 # misc tools
-emerge www-client/links app-editors/emacs app-misc/ranger app-misc/livecd-tools
+emerge www-client/links app-editors/emacs app-misc/ranger
 
 exit
 EOF
