@@ -1,16 +1,15 @@
 #!/bin/bash 
 
 # config variables
-export nif=''
-export usr=''
+export usr='' # new username
 export pswd=''
 export hostname=''
 
-if [ nif == '' ] || [ usr == '' ] || [ pswd == '' ] || [ hostname == '' ]
-then
-       echo "error: set config variables"
-       exit
-fi
+export e_if='' # wired interface
+
+export w_if='' # wireless interface
+export ssid=''
+export psk=''
 
 # set-up disk partitions
 parted --script -a optimal -- /dev/sda \
@@ -123,11 +122,35 @@ emerge sys-kernel/linux-firmware
 # define a system hostname
 echo -e "hostname=\"$hostname\"" > /etc/conf.d/hostname
 
-# bring netif up on boot using dhcp
-echo -e "config_$nif=\"dhcp\"" > /etc/conf.d/net
+# bring ethnernet interface up on boot using dhcp
+echo -e "config_$e_if=\"dhcp\"" > /etc/conf.d/net
 cd /etc/init.d 
-ln -s net.lo net.$nif
-rc-update add net.$nif default
+ln -s net.lo net.$e_if
+rc-update add net.$e_if default
+
+# bring up wireless interface up on boot using dhcp
+emerge net-wireless/wpa_supplicant
+emerge net-wireless/wireless-tools
+cd /etc/init.d
+ln -s net.lo net.$w_if
+rc-update add net.$w_if default
+
+echo -e "modules_$w_if=\"wpa_supplicant\"
+wpa_supplicant_$w_if=\"-Dnl80211\"
+wpa_timeout_$w_if=30
+iwconfig_$w_if_mode=\"Managed\"
+dhcpcd_$w_if=\"-t 10\"
+config_$w_if=\"dhcp\"" >> /etc/conf.d/net
+
+echo -e "ctrl_interface=/var/run/wpa_supplicant
+ctrl_interface_group=0
+update_config=1
+
+network={
+ssid=\"$ssid\"
+psk=\"$psk\"                                                                                                                             
+key_mgmt=WPA-PSK                                                                                                                         
+}" > /etc/wpa_supplicant/wpa_supplicant.conf
 
 # install dhcp clinet daemon to obtain ip addr for nic(s)
 emerge net-misc/dhcpcd
