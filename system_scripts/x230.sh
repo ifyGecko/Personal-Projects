@@ -110,6 +110,7 @@ emerge app-portage/cpuid2cpuflags
 echo -e "CPU_FLAGS_X86=\"$(cpuid2cpuflags | cut -d':' -f2 | cut -d' ' -f2-)\"" >> /etc/portage/make.conf
 emerge -c app-portage/cpuid2cpuflags
 
+# add video card to make.conf
 echo 'VIDEO_CARDS="intel"' >> /etc/portage/make.conf
 
 # unmask and install genkernel
