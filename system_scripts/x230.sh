@@ -125,18 +125,16 @@ emerge sys-kernel/linux-firmware
 # define a system hostname
 echo -e "hostname=\"$hostname\"" > /etc/conf.d/hostname
 
-# bring ethnernet interface up on boot using dhcp
+# set-up wired networking
 echo -e "config_$e_if=\"dhcp\"" > /etc/conf.d/net
 cd /etc/init.d 
 ln -s net.lo net.$e_if
-rc-update add net.$e_if default
 
-# bring up wireless interface up on boot using dhcp
+# set-up wireless networking
 emerge net-wireless/wpa_supplicant
 emerge net-wireless/wireless-tools
 cd /etc/init.d
 ln -s net.lo net.$w_if
-rc-update add net.$w_if default
 
 echo -e "modules_$w_if=\"wpa_supplicant\"
 wpa_supplicant_$w_if=\"-Dnl80211\"
