@@ -209,6 +209,8 @@ unix_sock_rw_perms = "0770"
 auth_unix_ro = "none"
 auth_unix_rw = "none"' > /etc/libvirt/libvirtd.conf
 
+emerge net-misc/bridge-utils
+
 
 # firefox
 echo 'media-libs/libvpx postproc
