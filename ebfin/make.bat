@@ -1,0 +1,1 @@
+..\tcc\tcc.exe main.c -o main.exe
