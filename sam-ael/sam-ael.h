@@ -19,7 +19,7 @@
 //memfd_create syscall wrapper macro
 #define MEMFD_CREATE(x,y) syscall(__NR_memfd_create, x, y)
 
-//externally reference to  environment variable 
+//external reference to  environment variable 
 extern char** environ;
 
 //declared function prototypes
