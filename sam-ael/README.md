@@ -14,6 +14,3 @@ TODO:
 	2) error handling
 	3) anti-debugging && obfuscation
 	
-RESEARCH:
-
-	1) will higher entropy associated with encryption/compression impact stealth
