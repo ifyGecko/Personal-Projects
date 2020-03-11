@@ -182,35 +182,6 @@ XTerm*eightBitInput:false
 XTerm*eightBitInput:true" > .Xdefaults
 exit
 
-# qemu-kvm with virt-manager
-echo 'QEMU_SOFTMMU_TARGETS="x86_64"
-QEMU_USER_TARGETS="x86_64"' >> /etc/portage/make.conf
-
-rm -rf /etc/portage/package.use
-
-echo 'app-emulation/qemu spice virgl virtfs vde opengl usbredir -xen
-app-emulation/virt-manager gtk
-x11-libs/cairo X
-net-misc/spice-gtk usbredir
-dev-libs/libxml2 python' > /etc/portage/package.use
-
-emerge app-emulation/qemu
-emerge app-emulation/virt-manager
-
-gpasswd -a $usr kvm
-groupadd libvirt
-gpasswd -a $usr libvirt
-
-cp /etc/libvirt/libvirtd.conf /etc/libvirt/libvirtd.conf.bak
-
-echo 'unix_sock_group = "libvirt"
-unix_sock_ro_perms = "0777"
-unix_sock_rw_perms = "0770"
-auth_unix_ro = "none"
-auth_unix_rw = "none"' > /etc/libvirt/libvirtd.conf
-
-emerge net-misc/bridge-utils sys-apps/usermode-utilities
-
 # firefox
 echo 'media-libs/libvpx postproc
 dev-db/sqlite secure-delete
