@@ -1,15 +1,21 @@
 #!/bin/bash 
 
 # config variables
-export usr='' # new username
-export pswd=''
-export hostname=''
+export usr=''        # new username
+export pswd=''       # user password
+export hostname=''   # network host name
 
 export e_if='' # wired interface
 
 export w_if='' # wireless interface
-export ssid=''
-export psk=''
+export ssid='' # network name
+export psk=''  # network password
+
+if [ usr == '' ] || [ pswd == '' ] || [ hostname == '' ] || [ e_if == '' ] || [ w_if == '' ] || [ ssid == '' ] || [ psk == '' ]
+then
+       echo "error: set config variables"
+       exit
+fi
 
 # set-up disk partitions
 parted --script -a optimal -- /dev/sda \
