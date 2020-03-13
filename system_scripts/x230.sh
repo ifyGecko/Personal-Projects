@@ -5,9 +5,9 @@ export usr=''        # new username
 export pswd=''       # user password
 export hostname=''   # network host name
 
-export e_if='' # wired interface
+export e_if='enp0s25' # wired interface
 
-export w_if='' # wireless interface
+export w_if='wlp3s0' # wireless interface
 export ssid='' # network name
 export psk=''  # network password
 
@@ -135,12 +135,14 @@ echo -e "hostname=\"$hostname\"" > /etc/conf.d/hostname
 echo -e "config_$e_if=\"dhcp\"" > /etc/conf.d/net
 cd /etc/init.d 
 ln -s net.lo net.$e_if
+rc-update add net.$e_if default
 
 # set-up wireless networking
 emerge net-wireless/wpa_supplicant
 emerge net-wireless/wireless-tools
 cd /etc/init.d
 ln -s net.lo net.$w_if
+rc-update add net.$w_if default
 
 echo -e "modules_$w_if=\"wpa_supplicant\"
 wpa_supplicant_$w_if=\"-Dnl80211\"
