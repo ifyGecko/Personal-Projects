@@ -14,22 +14,27 @@ fi
 
 # set-up disk partitions
 parted --script -a optimal -- /dev/sda \
-       mklabel gpt \
+       #mklabel gpt \
+       mklabel msdos \
        unit mib \
-       mkpart primary 1 3 \
-       name 1 grub \
-       set 1 bios_grub on \
-       mkpart primary 3 131 \
-       name 2 boot \
-       mkpart primary 131 -1 \
-       name 3 rootfs
+       #mkpart primary 1 3 \
+       #name 1 grub \
+       #set 1 bios_grub on \
+       #mkpart primary 3 131 \
+       #name 2 boot \
+       #mkpart primary 131 -1 \
+       #name 3 rootfs
+       mkpart 1 -1 \
+       name 1 rootfs
 
 # format new partitions
-mkfs.ext2 -F /dev/sda2
-mkfs.ext4 -F /dev/sda3
+#mkfs.ext2 -F /dev/sda2
+#mkfs.ext4 -F /dev/sda3
+mkfs.ext4 -F /dev/sda1
 
 # mount root partition
-mount /dev/sda3 /mnt/gentoo
+#mount /dev/sda3 /mnt/gentoo
+mount /dev/sda1 /mnt/gentoo 
 
 # set-up swapfile ~20% the size of main memory
 dd if=/dev/zero of=/mnt/gentoo/swapfile bs=1MB count=$(bc <<< "scale=0; $(free -m  | grep Mem | awk '{print $2}')*0.2/1")
@@ -74,11 +79,14 @@ chroot /mnt/gentoo /bin/bash -x << 'EOF'
 source /etc/profile
 
 # mount /boot partition
-mount /dev/sda2 /boot
+#mount /dev/sda2 /boot
+mkdir /boot
 
 # create fstab
-echo "/dev/sda2      /boot  ext2   defaults,noatime     0 2" > /etc/fstab
-echo "/dev/sda3      /      ext4   noatime       0 1" >> /etc/fstab
+#echo "/dev/sda2      /boot  ext2   defaults,noatime     0 2" > /etc/fstab
+#echo "/dev/sda3      /      ext4   noatime       0 1" >> /etc/fstab
+echo "/dev/sda1      /      ext4   noatime       0 1" > /etc/fstab
+
 echo "/swapfile      none   swap   sw,loop       0 0" >> /etc/fstab
 echo "tmpfs          /var/tmp/portage     tmpfs  size=4G,uid=portage,gid=portage,mode=775,noatime	0 0" >> /etc/fstab
 
@@ -130,9 +138,12 @@ rc-update add net.$nif default
 emerge net-misc/dhcpcd
 
 # install bootloader
-emerge sys-boot/grub:2
-grub-install /dev/sda
-grub-mkconfig -o /boot/grub/grub.cfg
+#emerge sys-boot/grub:2
+#grub-install /dev/sda
+#grub-mkconfig -o /boot/grub/grub.cfg
+emerge sys-boot/syslinux
+
+# config syslinux bootloader
 
 # install emacs
 emerge app-editors/emacs
