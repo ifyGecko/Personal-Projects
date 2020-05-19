@@ -148,39 +148,7 @@ useradd -m -G sudo -s /bin/bash $usr
 # set default user password (leaving root passwd undefined)
 (echo $pswd; echo $pswd) | passwd $usr
 
-# qemu-kvm
-echo 'QEMU_SOFTMMU_TARGETS="x86_64"
-QEMU_USER_TARGETS="x86_64"' >> /etc/portage/make.conf
-
-rm -rf /etc/portage/package.use
-
-echo 'app-emulation/qemu spice virgl virtfs vde opengl usbredir -xen' > /etc/portage/package.use
-
-emerge app-emulation/qemu
-
-gpasswd -a $usr kvm
-
-# libvirt(d)
-emerge app-emulation/libvirt
-
-groupadd libvirt
-gpasswd -a $usr libvirt
-
-cp /etc/libvirt/libvirtd.conf /etc/libvirt/libvirtd.conf.bak
-
-echo 'auth_unix_ro = "none"
-auth_unix_rw = "none"
-unix_sock_group = "libvirt"
-unix_sock_ro_perms = "0777"
-unix_sock_rw_perms = "0770"' > /etc/libvirt/libvirtd.conf
-
-rc-update add libvirtd default
-
 # set sshd service to default run level
-rc-update add sshd default
-
-# power management
-emerge sys-power/suspend
 
 exit
 EOF
